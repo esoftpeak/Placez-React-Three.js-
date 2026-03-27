@@ -1,77 +1,112 @@
 # Placez
 
-## Introduction
+Placez is a planning platform for catering and event teams. It combines business workflows (events, clients, payments, scheduling, settings) with a 2D/3D layout designer powered by Three.js.
 
-[Placez (formerly Spacez)](https://getplacez.com/) is a website to manage catering business while providing access to 3D design places.
+## Project Demo Video
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using Redux Sagas which includes a ThreeJS 3D Component. The codebase uses Typescript over Javascript and includes tslint for linting and an `.editorconfig` for code editor consistency.
+<video src="./3D%20Placez%20Project.mp4" autoplay muted loop playsinline controls width="100%">
+  Your browser does not support the video tag.
+</video>
 
-This project utilizes Caterease integrations such as an API provided by the [Placez API (formerly Spacez API)](http://spacez-api-staging.azurewebsites.net/swagger/index.html) and the [Customer Portal](https://customer-portal-staging.azurewebsites.net/).
+If autoplay is blocked by the platform/browser, use this direct file link: [`3D Placez Project.mp4`](./3D%20Placez%20Project.mp4).
 
-- [Placez API Github](https://github.com/Caterease/spacez-api)
-- [Customer Portal Github](https://github.com/Caterease/spacez-api)
+## What the Application Includes
+
+- **Dashboard and metrics** for event and revenue visibility
+- **Event management** with event list, details, and layout planning
+- **Venue library** with venue management and floorplan planning
+- **Calendar views** (month/week/day) with event drawer and filters
+- **Client management** for contact and organization workflows
+- **Model libraries/assets** with catalog, subcategory, hide/show, and delete flows
+- **Payments module** for payment records, payment requests, export, and link actions (resend/cancel/extend)
+- **Settings module** for appearance, business info, payment setup, payment link settings, invoices, quick picks, and designer collision settings
+- **OIDC authentication** through Customer Portal with silent renew
+- **Environment-specific tools** for media/catalog management in non-production
+
+## Tech Stack
+
+- React + TypeScript + Vite
+- Redux + Redux Saga
+- Material UI + Kendo UI components
+- Three.js for planner/designer experiences
+- OIDC (`redux-oidc`) for authentication
+- ESLint + Prettier + Husky
+
+## Requirements
+
+- Node.js 18+ (recommended)
+- Yarn
+
+## Getting Started
+
+1. Install dependencies:
+
+```bash
+yarn
+```
+
+2. Create or update your environment file (`.env`, `.env.development`, or local override).
+
+3. Start the app:
+
+```bash
+yarn start
+```
+
+By default, the app runs on:
+
+- [http://localhost:3002](http://localhost:3002)
 
 ## Environment Variables
 
-Any of these settings can be found in `.env`. These are not environment specific since they can be overrode in commands. Any of the settings in the repo are for local work against staging.
+The app uses Vite environment variables (`VITE_APP_*`). At minimum, configure:
 
-These settings define the urls for the API and Customer Portal.
+- `VITE_APP_PLACEZ_API_URL` - Placez API base URL
+- `VITE_APP_PORTAL` - Customer Portal/OIDC authority URL
+- `VITE_APP_SCOPE` - OIDC scopes
+- `VITE_APP_CLIENT_ID` - OIDC client ID
+- `VITE_APP_LOGIN_REDIRECT` - login callback URL
+- `VITE_APP_LOGOUT_REDIRECT` - logout callback URL
+- `VITE_APP_ENVIRONMENT` - `development`, `staging`, or `production`
 
-- `ENV_APP_PLACEZ_API_URL` - Placez Api Url
-- `ENV_APP_PORTAL` - Customer Portal Url
+Optional commonly used values:
 
-For authorization, the project uses OIDC in conjuction with Customer Portal.
-These **must line up** with settings in Customer Portal or the app will not work.
+- `VITE_APP_PAYMENTS_API_URL`
+- `VITE_APP_GOOGLE_API_KEY`
+- `VITE_APP_INSIGHTS_ENABLED`
+- `VITE_APP_INSIGHTS_KEY`
+- `VITE_APP_GTAG_MEASUREMENT_ID`
 
-- `ENV_APP_SCOPE` - Scope for OIDC
-- `ENV_APP_CLIENT_ID` - Identifier for client
-- `ENV_APP_LOGIN_REDIRECT` - Redirect after login from portal
-- `ENV_APP_LOGOUT_REDIRECT` - Redirect after logout from portal
+Example local override:
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn`
-
-Install packages. This project does not use **npm** as a package manager so ensure only `yarn.lock` is comitted and no other `.lock` files.
-
-### `yarn lint`
-
-Uses `tslint` to lint packages. The current rulest is a modified version of AirBnB.
-
-### `yarn start`
-
-⚠️ **IMPORTANT**: Runs the app in the development mode. This will defaultly uses `.env` and `.env.development` to start the application. If you want to use a local setup, use `.env.development.local` to override just the properties you need. This file should NEVER be pushed up.
-
-**Example:** `.env.development.local` file
-
-```
-ENV_APP_LOGIN_REDIRECT=http://localhost:3001/signin-oidc/
-ENV_APP_LOGOUT_REDIRECT=http://localhost:3001/
+```env
+VITE_APP_LOGIN_REDIRECT=http://localhost:3002/signin-oidc/
+VITE_APP_LOGOUT_REDIRECT=http://localhost:3002/
 ```
 
-<br>
-Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
+## Scripts
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- `yarn dev` - run locally on port `3002`
+- `yarn start` - same as dev run
+- `yarn start:staging` - copy staging env and run locally
+- `yarn start:production` - copy production env and run locally
+- `yarn build` - type-check and create production build
+- `yarn preview` - preview the production build
+- `yarn lint:check` - run ESLint checks
+- `yarn lint:fix` / `yarn lint` - fix lint issues
+- `yarn format:check` - verify Prettier formatting
+- `yarn format:fix` / `yarn format` - apply formatting
+- `yarn lint-format` - run lint and format fixers
+- `yarn knip` - find unused files/exports/dependencies
 
-### `yarn build`
+## Related Services
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [Placez API Swagger](http://spacez-api-staging.azurewebsites.net/swagger/index.html)
+- [Customer Portal (Staging)](https://customer-portal-staging.azurewebsites.net/)
+- [Placez API Repository](https://github.com/Caterease/spacez-api)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## DevOps
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) and [environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables) for more information. This [resource](https://dev.to/jam3/managing-env-variables-for-provisional-builds-h37) can also be helpful for how our specific environments are setup.
+Azure DevOps is used for boards and pipelines:
 
-- `yarn build` - Uses `.env` and `.env.production`. This is default behavior of Create React App.
-
-- `yarn build:development` - Uses `.env` and `.env.development`
-- `yarn build:staging` - Uses `.env` and `.env.staging`
-
-## Devops
-
-Devops is currently being handled with [Azure Devops](https://dev.azure.com/OnSkyLink/Placez). This is where the boards and backlog can be found.
+- [Placez Azure DevOps](https://dev.azure.com/OnSkyLink/Placez)
